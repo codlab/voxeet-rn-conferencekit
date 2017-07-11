@@ -42,7 +42,9 @@ export default class VoxeetRNSample extends Component {
   }
 
   componentDidMount() {
-    NativeModules.VoxeetManager.openSession('1111', 'John Smith', 'https://docs.moodle.org/27/en/images_en/7/7c/F1.png');
+    NativeModules.VoxeetManager.openSession('1111', 'John Smith', 'https://docs.moodle.org/27/en/images_en/7/7c/F1.png')
+    .then(() => console.log("Session connected"))
+    .catch((error) => this._displayConferenceError(error));
     this._configureConferenceSettings();
   }
 
@@ -67,7 +69,9 @@ export default class VoxeetRNSample extends Component {
     const {conferenceId} = this.state;
     const participants = this._createParticipants();
 
-    NativeModules.VoxeetManager.joinConference(conferenceId, participants).then((conference) => console.log(conference))
+    NativeModules.VoxeetManager.initializeConference(conferenceId, participants);
+    NativeModules.VoxeetManager.startConference(true)
+    .then((json) => console.log(json))
     .catch((error) => this._displayConferenceError(error));
   }
 
