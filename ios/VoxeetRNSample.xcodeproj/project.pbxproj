@@ -88,6 +88,20 @@
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		193DC8C61F1B98A800F16806 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D383D3C1EBD27B6005632C8;
+			remoteInfo = "third-party-tvOS";
+		};
+		193DC8C81F1B98A800F16806 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
+			remoteInfo = "double-conversion-tvOS";
+		};
 		1950207D1F000ADF00BA7E64 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -403,7 +417,9 @@
 				3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */,
 				3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */,
 				1950207E1F000ADF00BA7E64 /* libthird-party.a */,
+				193DC8C71F1B98A800F16806 /* libthird-party.a */,
 				195020801F000ADF00BA7E64 /* libdouble-conversion.a */,
+				193DC8C91F1B98A800F16806 /* libdouble-conversion.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -551,7 +567,7 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = B55NRA8BRW;
+						DevelopmentTeam = C569L68974;
 						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -683,6 +699,20 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		193DC8C71F1B98A800F16806 /* libthird-party.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libthird-party.a";
+			remoteRef = 193DC8C61F1B98A800F16806 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		193DC8C91F1B98A800F16806 /* libdouble-conversion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libdouble-conversion.a";
+			remoteRef = 193DC8C81F1B98A800F16806 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		1950207E1F000ADF00BA7E64 /* libthird-party.a */ = {
@@ -847,7 +877,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
 		14E7EFDC1F0E240500F1C1D9 /* Carthage Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -903,7 +933,7 @@
 				CODE_SIGN_ENTITLEMENTS = VoxeetRNSample/VoxeetRNSample.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = B55NRA8BRW;
+				DEVELOPMENT_TEAM = C569L68974;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -919,7 +949,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.voxeet.reactjs.native.example.VoxeetRNSample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.voxeet.VoxeetRNSample;
 				PRODUCT_NAME = VoxeetRNSample;
 				SWIFT_OBJC_BRIDGING_HEADER = "VoxeetRNSample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -935,7 +965,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = VoxeetRNSample/VoxeetRNSample.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B55NRA8BRW;
+				DEVELOPMENT_TEAM = C569L68974;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -951,7 +981,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.voxeet.reactjs.native.example.VoxeetRNSample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.voxeet.VoxeetRNSample;
 				PRODUCT_NAME = VoxeetRNSample;
 				SWIFT_OBJC_BRIDGING_HEADER = "VoxeetRNSample-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
