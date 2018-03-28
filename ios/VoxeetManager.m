@@ -15,10 +15,9 @@ RCT_EXPORT_MODULE();
 
 
 RCT_EXPORT_METHOD(initialize:(NSString*)consumerKey
-                  consumerSecret:(NSString*)consumerSecret
-                  automaticallyOpenSession:(BOOL)automaticallyOpenSession)
+                  consumerSecret:(NSString*)consumerSecret)
 {
-  [VoxeetModule initialize:consumerKey consumerSecret:consumerSecret automaticallyOpenSession:automaticallyOpenSession];
+  [VoxeetModule initialize:consumerKey consumerSecret:consumerSecret];
 }
 
 RCT_EXPORT_METHOD(openSession:(NSString*)userId
@@ -57,17 +56,13 @@ RCT_EXPORT_METHOD(closeSession:(RCTPromiseResolveBlock)resolve
   }];
 }
 
-RCT_EXPORT_METHOD(initializeConference:(NSString*)conferenceId
-                  participants:(NSArray*)participants)
-{
-  [VoxeetModule initializeConferenceWithConferenceId:conferenceId participants:participants];
-}
-
-RCT_EXPORT_METHOD(startConference:(BOOL)sendInvitation
+RCT_EXPORT_METHOD(startConference:(NSString*)conferenceId
+                  participants:(NSArray*)participants
+                  invite:(BOOL)invite
                   resolve:(RCTPromiseResolveBlock)resolve
                   ejecter:(RCTPromiseRejectBlock)reject)
 {
-  [VoxeetModule startConference:sendInvitation completion:^(NSDictionary<NSString *,id> *json) {
+  [VoxeetModule startConferenceWithConferenceId:conferenceId users:participants invite:invite completion:^(NSDictionary<NSString *,id> *json) {
     resolve(json);
   } onError:^(NSString *error) {
     reject(@"startConference_error", error, nil);

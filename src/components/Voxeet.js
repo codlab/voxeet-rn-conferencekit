@@ -22,7 +22,7 @@ import {
 export default class Voxeet extends Component {
 
   componentWillMount() {
-    VoxeetRN.initialize('consumerKey', 'consumerSecret', false);
+    VoxeetRN.initialize('consumerKey', 'consumerSecret');
   }
 
   componentDidMount() {
@@ -52,8 +52,7 @@ export default class Voxeet extends Component {
   _onJoinConference = (conferenceId: string) => {
     const participants = this._createParticipants();
 
-    VoxeetRN.initializeConference(conferenceId, participants);
-    VoxeetRN.startConference(true)
+    VoxeetRN.startConference(conferenceId, participants, true)
     .then((json) => console.log(json))
     .catch((error) => this._displayConferenceError(error));
   }

@@ -7,13 +7,8 @@
 //
 
 import UIKit
+import VoxeetSDK
 import VoxeetConferenceKit
-
-struct Participant {
-  var id: String
-  var name: String
-  var avatar: String
-}
 
 @objc class VoxeetModule: NSObject {
   
@@ -25,13 +20,13 @@ struct Participant {
     VoxeetConferenceKit.shared.application(application, handleActionWithIdentifier: identifier, for: notification, completionHandler: completionHandler)
   }
   
-  class func initialize(_ consumerKey: String, consumerSecret: String, automaticallyOpenSession: Bool) {
-    VoxeetConferenceKit.shared.initialize(consumerKey: consumerKey, consumerSecret: consumerSecret, automaticallyOpenSession: automaticallyOpenSession)
+  class func initialize(_ consumerKey: String, consumerSecret: String) {
+    VoxeetConferenceKit.shared.initialize(consumerKey: consumerKey, consumerSecret: consumerSecret)
   }
   
   class func openSession(_ participantId: String, participantName: String, avatarURL: String, completion: @escaping () -> Void,onError: @escaping (_ error: String) -> Void) {
-    let ownParticipant = VoxeetParticipant(id: participantId, name: participantName, avatarURL: URL(string: avatarURL))
-    VoxeetConferenceKit.shared.openSession(participant: ownParticipant, completion: { (error) in
+    let ownParticipant = VTUser(id: participantId, name: participantName, photoURL: avatarURL)
+    VoxeetConferenceKit.shared.openSession(user: ownParticipant, completion: { (error) in
       if let error = error {
         onError(error.localizedDescription)
       } else {
@@ -41,8 +36,8 @@ struct Participant {
   }
   
   class func updateSession(_ participantId: String, participantName: String, avatarURL: String, completion: @escaping () -> Void, onError: @escaping (_ error: String) -> Void) {
-    let ownParticipant = VoxeetParticipant(id: participantId, name: participantName, avatarURL: URL(string: avatarURL))
-    VoxeetConferenceKit.shared.updateSession(participant: ownParticipant, completion: { (error) in
+    let ownParticipant = VTUser(id: participantId, name: participantName, photoURL: avatarURL)
+    VoxeetConferenceKit.shared.updateSession(user: ownParticipant, completion: { (error) in
       if let error = error {
         onError(error.localizedDescription)
       } else {
@@ -61,22 +56,18 @@ struct Participant {
     })
   }
   
-  class func initializeConference(conferenceId: String, participants: [AnyObject]) {
-    var finalParticipants = [VoxeetParticipant]()
+  class func startConference(conferenceId: String, users: [AnyObject], invite: Bool, completion: @escaping (_ json: [String: Any]?) -> Void, onError: @escaping (_ error: String) -> Void) {
+    var finalUsers = [VTUser]()
     
-    for participant in participants {
-      if let participantId = participant["id"] as? String, let participantName = participant["name"] as? String {
-        let participantAvatar = participant["avatar"] as? String
+    for user in users {
+      if let participantId = user["id"] as? String, let participantName = user["name"] as? String {
+        let participantAvatar = user["avatar"] as? String
         
-        finalParticipants.append(VoxeetParticipant(id: participantId, name: participantName, avatarURL: URL(string: participantAvatar ?? "")))
+        finalUsers.append(VTUser(id: participantId, name: participantName, photoURL: participantAvatar ?? ""))
       }
     }
     
-    VoxeetConferenceKit.shared.initializeConference(id: conferenceId, participants: finalParticipants)
-  }
-  
-  class func startConference(_ sendInvitation: Bool, completion: @escaping (_ json: [String: Any]?) -> Void, onError: @escaping (_ error: String) -> Void) {
-    VoxeetConferenceKit.shared.startConference(sendInvitation: sendInvitation, success: { (json) in
+    VoxeetConferenceKit.shared.startConference(id: conferenceId, users: finalUsers, invite: invite, success: { (json) in
       completion(json)
     }, fail: { (error) in
       onError(error.localizedDescription)
@@ -97,7 +88,7 @@ struct Participant {
     if let participantId = participant["id"] as? String, let participantName = participant["name"] as? String {
       let participantAvatar = participant["avatar"] as? String
       
-      VoxeetConferenceKit.shared.add(participant: VoxeetParticipant(id: participantId, name: participantName, avatarURL: URL(string: participantAvatar ?? "")))
+      VoxeetConferenceKit.shared.add(user: VTUser(id: participantId, name: participantName, photoURL: participantAvatar ?? ""))
     }
   }
   
@@ -105,29 +96,29 @@ struct Participant {
     if let participantId = participant["id"] as? String, let participantName = participant["name"] as? String {
       let participantAvatar = participant["avatar"] as? String
       
-      VoxeetConferenceKit.shared.update(participant: VoxeetParticipant(id: participantId, name: participantName, avatarURL: URL(string: participantAvatar ?? "")))
+      VoxeetConferenceKit.shared.update(user: VTUser(id: participantId, name: participantName, photoURL: participantAvatar ?? ""))
     }
   }
   
-  class func update(participants: [AnyObject]) {
-    var finalParticipants = [VoxeetParticipant]()
-    
-    for participant in participants {
-      if let participantId = participant["id"] as? String, let participantName = participant["name"] as? String {
-        let participantAvatar = participant["avatar"] as? String
-        
-        finalParticipants.append(VoxeetParticipant(id: participantId, name: participantName, avatarURL: URL(string: participantAvatar ?? "")))
+  class func update(users: [AnyObject]) {
+    var finalUsers = [VTUser]()
+
+    for user in users {
+      if let participantId = user["id"] as? String, let participantName = user["name"] as? String {
+        let participantAvatar = user["avatar"] as? String
+
+        finalUsers.append(VTUser(id: participantId, name: participantName, photoURL: participantAvatar ?? ""))
       }
     }
     
-    VoxeetConferenceKit.shared.update(participants: finalParticipants)
+    VoxeetConferenceKit.shared.update(users: finalUsers)
   }
   
   class func remove(participant: AnyObject) {
     if let participantId = participant["id"] as? String, let participantName = participant["name"] as? String {
       let participantAvatar = participant["avatar"] as? String
       
-      VoxeetConferenceKit.shared.remove(participant: VoxeetParticipant(id: participantId, name: participantName, avatarURL: URL(string: participantAvatar ?? "")))
+      VoxeetConferenceKit.shared.remove(user: VTUser(id: participantId, name: participantName, photoURL: participantAvatar ?? ""))
     }
   }
   

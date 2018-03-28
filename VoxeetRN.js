@@ -9,8 +9,8 @@ export type ConferenceUser ={
 
 module.exports = {
 
-  initialize: function(consumerKey:string, consumerSecret:string, automaticallyOpenSession:boolean) {
-    NativeModules.VoxeetManager.initialize(consumerKey, consumerSecret, automaticallyOpenSession);
+  initialize: function(consumerKey:string, consumerSecret:string) {
+    NativeModules.VoxeetManager.initialize(consumerKey, consumerSecret);
   },
   openSession: function(userId: string, name: string, avatarURL: string): Promise {
     return NativeModules.VoxeetManager.openSession(userId, name, avatarURL);
@@ -24,10 +24,7 @@ module.exports = {
   screenAutoLock: function(activate: boolean) {
     NativeModules.VoxeetManager.screenAutoLock(activate);
   },
-  initializeConference: function(conferenceId: string, participants: Array<ConferenceUser>) {
-    NativeModules.VoxeetManager.initializeConference(conferenceId, participants);
-  },
-  startConference: function(sendInvitation: boolean) {
-    return NativeModules.VoxeetManager.startConference(sendInvitation);
+  startConference: function(conferenceId: string, participants: Array<ConferenceUser>, invite: boolean): Promise {
+    return NativeModules.VoxeetManager.startConference(conferenceId, participants, invite);
   },
 };
